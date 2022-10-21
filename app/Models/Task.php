@@ -14,4 +14,8 @@ class Task extends Model
         'category_id',
         'description'
     ];
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }
