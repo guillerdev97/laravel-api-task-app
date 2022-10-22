@@ -24,7 +24,7 @@ class TaskController extends Controller
                 'msg' => 'All tasks',
                 'data' => $tasks
             ], 200);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return response()->json([
                 'status' => 0,
                 'msg' => 'There are not tasks',
