@@ -22,11 +22,14 @@ class TaskController extends Controller
                 'msg' => 'All tasks',
                 'data' => $tasks
             ], 200);
-        } catch (Exception) {
+        } catch (Exception $e) {
+            $code = $e->getCode();
+            $msg = $e->getMessage();
+
             return response()->json([
                 'status' => 0,
-                'msg' => 'There are not tasks',
-            ], 404);
+                'msg' => $msg,
+            ], $code);
         }
     }
 

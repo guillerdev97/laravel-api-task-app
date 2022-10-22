@@ -11,5 +11,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::namespace('TaskController')->group(function () {
     Route::get('/tasks/list', [TaskController::class, 'list'])->name('listTasks');
     Route::post('/tasks/create', [TaskController::class, 'create'])->name('createTask');
-    Route::delete('/tasks/delete/{id}', [TaskController::class, 'delete'])->name('deleteTask');
+    Route::group(['middleware' => ['auth:sanctum']], function() {
+        Route::delete('/tasks/delete/{id}', [TaskController::class, 'delete'])->name('deleteTask');
+    });
 });

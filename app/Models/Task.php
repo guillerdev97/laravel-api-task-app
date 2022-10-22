@@ -22,7 +22,10 @@ class Task extends Model
 
     public static function throwExceptionIfNotTasks() {
         if (sizeof(Task::all()) === 0) {
-            throw new Exception();
+            throw new Exception(
+                'There are not tasks',
+                404
+            );
         }
     }
 }
