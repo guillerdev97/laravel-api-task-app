@@ -25,11 +25,8 @@ class TaskController extends Controller
                 'data' => $tasks
             ], 200);
         } catch (Exception $e) {
-            $report = report($e);
-
             return response()->json([
                 'status' => 0,
-                'report' => $report,
                 'msg' => 'There are not tasks',
             ], 404);
         }
@@ -39,7 +36,7 @@ class TaskController extends Controller
     {
         try {
             $validations = [
-                'name' => 'required|min:1|max:50',
+                'name' => 'required|max:50',
                 'category_id' => 'required|integer',
                 'description' => 'required|max:255'
             ];
@@ -50,9 +47,7 @@ class TaskController extends Controller
             );
 
             if ($validator->fails()) {
-                $errors = $validator->errors();
-
-                throw new Exception(json_encode($errors));
+                throw new Exception();
             }
 
             $task = Task::create([
@@ -67,6 +62,8 @@ class TaskController extends Controller
                 'data' => $task
             ], 200);
         } catch (Exception) {
+            $errors = $validator->errors();
+
             return response()->json([
                 'status' => 0,
                 'msg' => $errors
