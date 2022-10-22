@@ -68,4 +68,22 @@ class TaskController extends Controller
             ], 400);
         }
     }
+
+    public function delete($id)
+    {
+        try {
+            $task = Task::findOrFail($id);
+
+            return response()->json([
+                'status' => 1,
+                'msg' => 'Task deleted',
+                'data' => $task
+            ], 200);
+        } catch (Exception) {
+            return response()->json([
+                'status' => 0,
+                'msg' => 'Task not found'
+            ], 404);
+        }
+    }
 }
