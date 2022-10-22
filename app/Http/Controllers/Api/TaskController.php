@@ -15,9 +15,7 @@ class TaskController extends Controller
         try {
             $tasks = Task::all();
 
-            if (sizeof($tasks) === 0) {
-                throw new Exception();
-            }
+            Task::throwExceptionIfNotTasks();
 
             return response()->json([
                 'status' => 1,
