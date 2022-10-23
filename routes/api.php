@@ -17,6 +17,7 @@ Route::get('/tasks/list', [TaskController::class, 'list'])->name('listTasks');
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/tasks/create', [TaskController::class, 'create'])->name('createTask');
     Route::delete('/tasks/delete/{id}', [TaskController::class, 'delete'])->name('deleteTask');
+    Route::patch('/tasks/update/{id}', [TaskController::class, 'update'])->name('updateTask');
 });
 
 

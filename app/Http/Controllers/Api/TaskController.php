@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
+    // read of crud
     public function list()
     {
         try {
@@ -33,6 +34,7 @@ class TaskController extends Controller
         }
     }
 
+    // create of crud
     public function create(Request $request)
     {
         try {
@@ -72,7 +74,7 @@ class TaskController extends Controller
         }
     }
 
-
+    // delete of crud
     public function delete($id)
     {
         try {
@@ -100,5 +102,60 @@ class TaskController extends Controller
                 'msg' => $msg
             ], $code);
         }
+    }
+
+    // update of crud
+    public function update(Request $request, $id) {
+        try {
+            $task = Task::find($id);
+
+            if(isset($task->id) === false) {
+                throw new Exception(
+                    'Task not found',
+                    404
+                );
+            }
+
+            $validations = [
+                'name' => 'required|max:50',
+                'category_id' => 'required|integer',
+                'description' => 'required|max:255'
+            ];
+
+            $validator = Validator::make(
+                $request->all(),
+                $validations
+            );
+
+            if ($validator->fails()) {
+                throw new Exception();
+            }
+    
+            $task->name = $request->name;
+            $task->category_id = $request->category_id;
+            $task->description = $request->description;
+    
+            $task->update();
+    
+            return response()->json([
+                'status' => 1,
+                'msg' => 'Task updated',
+                'data' => $task
+            ], 200);
+        } catch(Exception $e) {
+            if($validator->errors()) {
+                $msg = $validator->errors();
+                $code = 400;
+            }
+            if(!$validator->errors()) {
+                $msg = $e->getMessage();
+                $code = $e->getCode();
+            }
+
+            return response()->json([
+                'status' => 0,
+                'msg' => $msg
+            ], $code);
+        } 
     }
 }

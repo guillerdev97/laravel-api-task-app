@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    // login of auth
     public function login(Request $request)
     {
         try {
@@ -76,5 +77,7 @@ class AuthController extends Controller
                 'msg' => $msg
             ], $code);
         }
-    }
+    } 
+
+    // logout of auth
 }
